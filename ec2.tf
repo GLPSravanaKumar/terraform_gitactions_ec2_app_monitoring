@@ -6,7 +6,7 @@ locals {
 }
 
 data "aws_availability_zones" "name" {
-  state = available
+  state = "available"
 }
 
 resource "aws_vpc" "vpc" {
