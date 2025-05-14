@@ -5,6 +5,15 @@ locals {
   health_check_script = file("${path.module}/health_check.py")
 }
 
+resource "aws_vpc" "vpc" {
+  cidr_block = var.cidr_block
+  enable_dns_support = resource 
+  enable_dns_hostnames = true
+    
+  tags = {
+    Name = "glps-vpc"
+  }
+}
 
 resource "aws_instance" "ec2" {
   ami                         = var.ami
