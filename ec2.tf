@@ -3,7 +3,7 @@ data "aws_availability_zones" "name" {
 }
 
 locals {
-  config_yaml         = templatefile("${path.module}/config.yaml.tmpl", {
+  config_yaml         = templatefile("${path.module}/config.yaml", {
     sns_topic_arn = aws_sns_topic.health_topic.arn
   })
   health_check_script = file("${path.module}/health_check.py")
