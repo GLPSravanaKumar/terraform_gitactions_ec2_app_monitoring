@@ -1,0 +1,6 @@
+region = "ap-south-1"
+email = "glps369@gmail.com"
+topic_name = "glps-webapp-topic"
+ami = "ami-022ce6f32988af5fa"
+instance_type = "t2.medium"
+key_name = "glpsk370-ubuntu"

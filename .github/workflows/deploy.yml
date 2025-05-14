@@ -1,0 +1,63 @@
+name: Ec2webapp_sns_healthcheck Deployment
+
+on:
+  workflow_dispatch:
+    inputs:
+      action:
+        description: 'Choose action to perform apply or destroy'
+        required: true
+        default: "apply"
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    env:
+      AWS_REGION: ap-south-1
+    
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+     
+      - name: Install Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.7.0
+
+     
+      - name: Terraform Initialize
+        working-directory: .
+        run: |
+          terraform init \
+            -backend-config="bucket=glps-terraform-state-bucket" \
+            -backend-config="region=ap-south-1" \
+            -backend-config="key=eks/terraform.tfstate"
+          
+      - name : Terraform Validate
+        working-directory: .
+        run: |
+          terraform validate
+          
+      - name: Terraform Plan
+        working-directory: .
+        run: |
+           terraform plan -out=tfplan
+       
+      - name : Terraform Apply
+        working-directory: .
+        run: |
+           if [ "${{ github.event.inputs.action }}" == "destroy" ]; then
+              terraform destroy -auto-approve
+            else
+              terraform apply -auto-approve
+            fi
+      
+      
