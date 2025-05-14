@@ -35,6 +35,7 @@ resource "aws_instance" "ec2" {
   instance_type               = var.instance_type
   key_name                    = var.key_name
   subnet_id                   = aws_subnet.name.id
+  iam_instance_profile = aws_iam_instance_profile.ec2_profile.name
   associate_public_ip_address = true
 
   user_data = templatefile("${path.module}/userdata.sh", {
@@ -45,5 +46,7 @@ resource "aws_instance" "ec2" {
   tags = {
     Name = "health-check-ec2"
   }
+  depends_on = [ aws_iam_instance_profile.ec2_profile, aws_vpc.vpc, aws_subnet.name ]
+
   
 }
