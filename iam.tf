@@ -28,6 +28,6 @@ resource "aws_iam_role_policy_attachment" "ssm" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
 }
 resource "aws_iam_instance_profile" "ec2_profile" {
-  name = "ec2-sns-helthcheck-profile"
+  name = "ec2-sns-profile"
   role = aws_iam_role.ec2_role.name
 }
