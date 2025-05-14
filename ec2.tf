@@ -1,10 +1,5 @@
-terraform {
-  backend "s3" {
-    bucket         = "glps-terraform-state-bucket"
-    key            = "terraform.tfstate"
-    region         = "ap-south-1"
-    encrypt        = true
-  }
+data "aws_availability_zones" "name" {
+  state = "available"
 }
 
 locals {
@@ -14,9 +9,6 @@ locals {
   health_check_script = file("${path.module}/health_check.py")
 }
 
-data "aws_availability_zones" "name" {
-  state = "available"
-}
 
 resource "aws_vpc" "vpc" {
   cidr_block = var.cidr_block
