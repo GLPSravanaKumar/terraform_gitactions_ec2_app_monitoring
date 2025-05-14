@@ -1,3 +1,12 @@
+terraform {
+  backend "s3" {
+    bucket         = "glps-terraform-state-bucket"
+    key            = "terraform.tfstate"
+    region         = "ap-south-1"
+    encrypt        = true
+  }
+}
+
 locals {
   config_yaml         = templatefile("${path.module}/config.yaml.tmpl", {
     sns_topic_arn = aws_sns_topic.health_topic.arn
