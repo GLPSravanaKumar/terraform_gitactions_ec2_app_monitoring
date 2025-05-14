@@ -23,7 +23,7 @@ resource "aws_subnet" "name" {
   vpc_id = aws_vpc.vpc.id
   cidr_block = var.subnet_cidr
   map_public_ip_on_launch = true
-  availability_zone = element(data.aws_availability_zones.available.names, 0)
+  availability_zone = element(data.aws_availability_zones.name.names, 0)
   tags = {
     Name = "glps-subnet"
   }
