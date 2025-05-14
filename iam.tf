@@ -1,5 +1,5 @@
 resource "aws_iam_role" "ec2_role" {
-    name = ec2wepapp-sns-helthcheck-role
+    name = "ec2wepapp-sns-helthcheck-role"
     assume_role_policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
@@ -20,8 +20,8 @@ resource "aws_iam_role" "ec2_role" {
 }
 
 resource "aws_iam_role_policy_attachment" "sns" {
-    role   = aws_iam_role.ec2_role.name
-    policy_arn = "arn:aws:iam::aws:policy/AmazonSNSFullAccess"
+  role   = aws_iam_role.ec2_role.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonSNSFullAccess"
 }
 resource "aws_iam_role_policy_attachment" "ssm" {
   role       = aws_iam_role.ec2_role.name
